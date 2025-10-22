@@ -1,0 +1,11 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h1>Подтверждение заказа</h1>
+<p><strong>Номер заказа:</strong> {{ order.id }}</p>
+<p><strong>Билеты:</strong> {{ order.tickets_info }}</p>
+<p><strong>Общая сумма:</strong> {{ order.total_amount }} руб.</p>
+<form method="post" action="{% url 'core:confirm_purchase' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Подтвердить и оплатить</button>
+</form>
+{% endblock %}
