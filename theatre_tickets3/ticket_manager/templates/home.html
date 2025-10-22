@@ -1,0 +1,8 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center">
+    <h1 class="mb-4">Добро пожаловать в театр!</h1>
+    <p>Вы можете выбрать спектакль и забронировать билет прямо на сайте.</p>
+    <a href="{% url 'performance_list' %}" class="btn btn-primary mt-3">Перейти к спектаклям</a>
+</div>
+{% endblock %}
