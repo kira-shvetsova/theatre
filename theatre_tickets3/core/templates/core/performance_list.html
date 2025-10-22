@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h1>Афиша спектаклей</h1>
+<div class="row">
+    {% for performance in performances %}
+    <div class="col-md-4 mb-4">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">{{ performance.title }}</h5>
+                <p class="card-text">{{ performance.description|truncatewords:20 }}</p>
+                <p class="card-text">
+                    <small class="text-muted">
+                        {{ performance.date_time|date:"d.m.Y H:i" }}<br>
+                        Базовая цена: {{ performance.base_price }} руб.
+                    </small>
+                </p>
+                <a href="{% url 'core:performance_detail' performance.id %}" class="btn btn-primary">Выбрать места</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <div class="col-12">
+        <div class="alert alert-info">
+            На данный момент нет доступных спектаклей.
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
