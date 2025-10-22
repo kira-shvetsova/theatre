@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %}
+{% block content %}
+<h1>Выбор мест: {{ performance.title }}</h1>
+<p>Дата и время: {{ performance.date_time }}</p>
+
+{% if not user.is_authenticated %}
+    <div class="alert alert-warning">
+        <strong>Внимание!</strong> Для бронирования билетов необходимо
+        <a href="{% url 'core:login' %}" class="alert-link">войти в систему</a> или
+        <a href="{% url 'core:register' %}" class="alert-link">зарегистрироваться</a>.
+    </div>
+{% endif %}
+
+<form method="post" action="{% url 'core:reserve_tickets' %}">
+    {% csrf_token %}
+    <input type="hidden" name="performance_id" value="{{ performance.id }}">
+    <div class="row">
+        {% for ticket in available_tickets %}
+        <div class="col-3 mb-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" name="ticket_ids"
+                       value="{{ ticket.id }}" id="ticket{{ ticket.id }}"
+                       {% if not user.is_authenticated %}disabled{% endif %}>
+                <label class="form-check-label" for="ticket{{ ticket.id }}">
+                    {{ ticket.seat }} - {{ ticket.final_price }} руб.
+                </label>
+            </div>
+        </div>
+        {% empty %}
+        <p>К сожалению, на этот спектакль нет свободных мест.</p>
+        {% endfor %}
+    </div>
+    {% if available_tickets %}
+        {% if user.is_authenticated %}
+            <button type="submit" class="btn btn-success mt-3">Забронировать выбранные места</button>
+        {% else %}
+            <button type="button" class="btn btn-secondary mt-3" disabled>Войдите для бронирования</button>
+        {% endif %}
+    {% endif %}
+</form>
+{% endblock %}
