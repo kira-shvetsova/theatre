@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Список спектаклей</h2>
+<hr>
+<div class="list-group">
+  {% for performance in performances %}
+    <a href="{% url 'select_seat' performance.id %}" class="list-group-item list-group-item-action">
+      <strong>{{ performance.title }}</strong>
+      <br> {{ performance.date_time|date:"d.m.Y H:i" }}
+    </a>
+  {% empty %}
+    <p>Нет доступных спектаклей.</p>
+  {% endfor %}
+</div>
+{% endblock %}
